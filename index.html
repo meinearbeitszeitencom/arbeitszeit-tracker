@@ -19,6 +19,7 @@
     <img src="logo.svg" alt="Logo">
     <span>MeineArbeitszeit</span>
   </div>
+  <button class="darkToggle" onclick="toggleDark()">🌙</button>
 </header>
 
 <main class="container">
@@ -60,6 +61,11 @@
     </table>
 
     <div class="sum" id="monthSum"></div>
+
+    <div class="export">
+      <button onclick="exportCSV()">CSV exportieren</button>
+      <button onclick="exportPDF()">PDF exportieren</button>
+    </div>
   </section>
 
   <aside class="ad">Werbung</aside>
@@ -70,6 +76,8 @@
   <a href="datenschutz.html">Datenschutz</a>
 </footer>
 
+<!-- PDF Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
