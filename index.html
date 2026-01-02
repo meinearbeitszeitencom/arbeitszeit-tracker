@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Meine Arbeitszeit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Meine Arbeitszeit</h1>
+</header>
+
+<main class="container">
+  <aside class="ad">WERBUNG</aside>
+
+  <section class="app">
+    <div class="settings">
+      <label>
+        Arbeitsbeginn:
+        <input type="time" id="workStart" value="08:00">
+      </label>
+      <label>
+        Arbeitsende:
+        <input type="time" id="workEnd" value="17:00">
+      </label>
+    </div>
+
+    <div class="timer" id="timer">00:00:00</div>
+
+    <div class="buttons">
+      <button onclick="startWork()">Start</button>
+      <button onclick="stopWork()">Stopp</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </section>
+
+  <aside class="ad">WERBUNG</aside>
+</main>
+
+<footer>
+  <small>Nur zur persönlichen Dokumentation</small>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
