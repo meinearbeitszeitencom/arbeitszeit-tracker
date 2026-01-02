@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
-  <title>Meine Arbeitszeit</title>
+  <title>MeineArbeitszeit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1>Meine Arbeitszeit</h1>
+  <div class="logo">
+    ⏱️ <span>MeineArbeitszeit</span>
+  </div>
 </header>
 
 <main class="container">
-  <aside class="ad">WERBUNG</aside>
+  <aside class="ad">Werbung</aside>
 
   <section class="app">
+    <h2>Arbeitszeit heute</h2>
+
     <div class="settings">
       <label>
-        Arbeitsbeginn:
+        Arbeitsbeginn
         <input type="time" id="workStart" value="08:00">
       </label>
+
       <label>
-        Arbeitsende:
+        Arbeitsende
         <input type="time" id="workEnd" value="17:00">
       </label>
     </div>
@@ -32,21 +41,4 @@
     <div class="timer" id="timer">00:00:00</div>
 
     <div class="buttons">
-      <button onclick="startWork()">Start</button>
-      <button onclick="stopWork()">Stopp</button>
-    </div>
-
-    <div class="result" id="result"></div>
-  </section>
-
-  <aside class="ad">WERBUNG</aside>
-</main>
-
-<footer>
-  <small>Nur zur persönlichen Dokumentation</small>
-</footer>
-
-<script src="script.js"></script>
-</body>
-</html>
-
+      <button class="start" onclick="sta
