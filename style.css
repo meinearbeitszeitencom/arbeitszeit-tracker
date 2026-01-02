@@ -7,6 +7,14 @@
   --border: #e5e7eb;
 }
 
+body.dark {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #334155;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -22,6 +30,9 @@ header {
   background: var(--card);
   padding: 1.5rem;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
@@ -35,6 +46,13 @@ header {
 .logo img {
   width: 28px;
   height: 28px;
+}
+
+.darkToggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .container {
@@ -140,6 +158,17 @@ th {
   font-weight: 600;
 }
 
+.export {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.export button {
+  background: #e5e7eb;
+}
+
 footer {
   padding: 1.5rem;
   text-align: center;
@@ -153,20 +182,17 @@ footer a {
   margin: 0 0.5rem;
 }
 
-/* MOBILE */
+/* Mobile */
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
   }
-
   .ad {
     display: none;
   }
-
   .app {
     padding: 2rem 1.5rem;
   }
-
   .timer {
     font-size: 2.6rem;
   }
