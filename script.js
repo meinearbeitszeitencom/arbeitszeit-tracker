@@ -4,7 +4,6 @@ let interval = null;
 function startWork() {
   startTime = new Date();
   localStorage.setItem("startTime", startTime.toISOString());
-
   interval = setInterval(updateTimer, 1000);
 }
 
@@ -15,48 +14,59 @@ function stopWork() {
 
   const endTime = new Date();
   const start = new Date(localStorage.getItem("startTime"));
-
   const workedMs = endTime - start;
-  const workedHours = workedMs / 1000 / 60 / 60;
+  const workedHours = workedMs / 3600000;
 
-  const workStart = document.getElementById("workStart").value;
-  const workEnd = document.getElementById("workEnd").value;
+  const [sh, sm] = document.getElementById("workStart").value.split(":").map(Number);
+  const [eh, em] = document.getElementById("workEnd").value.split(":").map(Number);
 
-  const [sh, sm] = workStart.split(":").map(Number);
-  const [eh, em] = workEnd.split(":").map(Number);
-
-  const officialHours =
-    (eh * 60 + em - (sh * 60 + sm)) / 60;
-
+  const officialHours = ((eh * 60 + em) - (sh * 60 + sm)) / 60;
   const overtime = workedHours - officialHours;
 
   document.getElementById("result").innerText =
     `Überstunden heute: ${overtime.toFixed(2)} h`;
 
   saveDay(overtime);
+  renderMonth();
 }
 
 function updateTimer() {
-  const now = new Date();
-  const diff = now - startTime;
-
-  const h = Math.floor(diff / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-
+  const diff = new Date() - startTime;
   document.getElementById("timer").innerText =
-    `${pad(h)}:${pad(m)}:${pad(s)}`;
+    `${pad(diff / 3600000)}:${pad(diff / 60000 % 60)}:${pad(diff / 1000 % 60)}`;
 }
 
 function pad(n) {
-  return n.toString().padStart(2, "0");
+  return Math.floor(n).toString().padStart(2, "0");
 }
 
 function saveDay(overtime) {
   const days = JSON.parse(localStorage.getItem("days") || "[]");
   days.push({
-    date: new Date().toLocaleDateString(),
-    overtime: overtime
+    date: new Date().toISOString().slice(0, 10),
+    overtime
   });
   localStorage.setItem("days", JSON.stringify(days));
 }
+
+function renderMonth() {
+  const tbody = document.getElementById("monthTable");
+  const sumEl = document.getElementById("monthSum");
+  const days = JSON.parse(localStorage.getItem("days") || "[]");
+
+  tbody.innerHTML = "";
+  let sum = 0;
+
+  days.forEach(d => {
+    sum += d.overtime;
+    tbody.innerHTML += `
+      <tr>
+        <td>${d.date}</td>
+        <td>${d.overtime.toFixed(2)} h</td>
+      </tr>`;
+  });
+
+  sumEl.innerText = `Überstunden gesamt: ${sum.toFixed(2)} h`;
+}
+
+renderMonth();
