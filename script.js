@@ -1,6 +1,8 @@
 let startTime = null;
 let interval = null;
 
+const isPremium = localStorage.getItem("premium") === "true";
+
 function startWork() {
   startTime = new Date();
   localStorage.setItem("startTime", startTime.toISOString());
@@ -67,6 +69,61 @@ function renderMonth() {
   });
 
   sumEl.innerText = `Überstunden gesamt: ${sum.toFixed(2)} h`;
+}
+
+/* CSV */
+function exportCSV() {
+  if (!isPremium) {
+    alert("CSV Export ist eine Premium-Funktion");
+    return;
+  }
+
+  const days = JSON.parse(localStorage.getItem("days") || "[]");
+  let csv = "Datum,Überstunden\n";
+
+  days.forEach(d => {
+    csv += `${d.date},${d.overtime.toFixed(2)}\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "arbeitszeit.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* PDF */
+function exportPDF() {
+  if (!isPremium) {
+    alert("PDF Export ist eine Premium-Funktion");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.text("Arbeitszeit Übersicht", 20, 20);
+
+  const days = JSON.parse(localStorage.getItem("days") || "[]");
+  let y = 35;
+
+  days.forEach(d => {
+    doc.text(`${d.date}: ${d.overtime.toFixed(2)} h`, 20, y);
+    y += 8;
+  });
+
+  doc.save("arbeitszeit.pdf");
+}
+
+/* Dark Mode */
+function toggleDark() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("dark", document.body.classList.contains("dark"));
+}
+
+if (localStorage.getItem("dark") === "true") {
+  document.body.classList.add("dark");
 }
 
 renderMonth();
