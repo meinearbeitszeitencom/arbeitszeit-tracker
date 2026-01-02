@@ -1,14 +1,18 @@
 let startTime = null;
-let timerInterval = null;
+let interval = null;
 
 function startWork() {
   startTime = new Date();
-  localStorage.setItem("startTime", startTime);
-  timerInterval = setInterval(updateTimer, 1000);
+  localStorage.setItem("startTime", startTime.toISOString());
+
+  interval = setInterval(updateTimer, 1000);
 }
 
 function stopWork() {
-  clearInterval(timerInterval);
+  if (!startTime) return;
+
+  clearInterval(interval);
+
   const endTime = new Date();
   const start = new Date(localStorage.getItem("startTime"));
 
@@ -18,11 +22,11 @@ function stopWork() {
   const workStart = document.getElementById("workStart").value;
   const workEnd = document.getElementById("workEnd").value;
 
-  const [sh, sm] = workStart.split(":");
-  const [eh, em] = workEnd.split(":");
+  const [sh, sm] = workStart.split(":").map(Number);
+  const [eh, em] = workEnd.split(":").map(Number);
 
   const officialHours =
-    (eh * 60 + Number(em) - (sh * 60 + Number(sm))) / 60;
+    (eh * 60 + em - (sh * 60 + sm)) / 60;
 
   const overtime = workedHours - officialHours;
 
@@ -35,21 +39,24 @@ function stopWork() {
 function updateTimer() {
   const now = new Date();
   const diff = now - startTime;
+
   const h = Math.floor(diff / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
   const s = Math.floor((diff % 60000) / 1000);
 
   document.getElementById("timer").innerText =
-    `${h.toString().padStart(2, "0")}:${m
-      .toString()
-      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    `${pad(h)}:${pad(m)}:${pad(s)}`;
+}
+
+function pad(n) {
+  return n.toString().padStart(2, "0");
 }
 
 function saveDay(overtime) {
-  const data = JSON.parse(localStorage.getItem("days") || "[]");
-  data.push({
+  const days = JSON.parse(localStorage.getItem("days") || "[]");
+  days.push({
     date: new Date().toLocaleDateString(),
-    overtime: overtime,
+    overtime: overtime
   });
-  localStorage.setItem("days", JSON.stringify(data));
+  localStorage.setItem("days", JSON.stringify(days));
 }
