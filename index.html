@@ -5,7 +5,7 @@
   <title>MeineArbeitszeit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Font: Inter -->
+  <!-- Schriftart -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -16,7 +16,8 @@
 
 <header>
   <div class="logo">
-    ⏱️ <span>MeineArbeitszeit</span>
+    <img src="logo.svg" alt="Logo">
+    <span>MeineArbeitszeit</span>
   </div>
 </header>
 
@@ -31,7 +32,6 @@
         Arbeitsbeginn
         <input type="time" id="workStart" value="08:00">
       </label>
-
       <label>
         Arbeitsende
         <input type="time" id="workEnd" value="17:00">
@@ -41,4 +41,35 @@
     <div class="timer" id="timer">00:00:00</div>
 
     <div class="buttons">
-      <button class="start" onclick="sta
+      <button class="start" onclick="startWork()">Start</button>
+      <button class="stop" onclick="stopWork()">Stopp</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <h3>Monatsübersicht</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Überstunden</th>
+        </tr>
+      </thead>
+      <tbody id="monthTable"></tbody>
+    </table>
+
+    <div class="sum" id="monthSum"></div>
+  </section>
+
+  <aside class="ad">Werbung</aside>
+</main>
+
+<footer>
+  <a href="impressum.html">Impressum</a> |
+  <a href="datenschutz.html">Datenschutz</a>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
