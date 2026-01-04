@@ -21,7 +21,7 @@ function stopWork() {
   const totalWorkedHours = (end - start) / 3600000;
 
   const breakMinutes = Number(document.getElementById("breakMinutes").value) || 0;
-  const netWorkedHours = totalWorkedHours - (breakMinutes / 60);
+  const netWorkedHours = totalWorkedHours - breakMinutes / 60;
 
   const [sh, sm] = workStart.value.split(":").map(Number);
   const [eh, em] = workEnd.value.split(":").map(Number);
@@ -100,7 +100,7 @@ function renderChart(days) {
   });
 }
 
-/* EXPORT – jetzt frei */
+/* EXPORT */
 function exportCSV() {
   const days = JSON.parse(localStorage.getItem("days") || "[]");
   let csv = "Datum,Überstunden\n";
@@ -137,9 +137,9 @@ if (localStorage.getItem("dark") === "true") {
   document.body.classList.add("dark");
 }
 
-/* PWA */
+/* SERVICE WORKER REGISTRIEREN */
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
+  navigator.serviceWorker.register("/service-worker.js");
 }
 
 renderMonth();
