@@ -4,13 +4,14 @@ let chart = null;
 
 const isPremium = localStorage.getItem("premium") === "true";
 
-/* Arbeitszeit */
+/* START */
 function startWork() {
   startTime = new Date();
   localStorage.setItem("startTime", startTime.toISOString());
   interval = setInterval(updateTimer, 1000);
 }
 
+/* STOP */
 function stopWork() {
   if (!startTime) return;
 
@@ -18,19 +19,33 @@ function stopWork() {
 
   const end = new Date();
   const start = new Date(localStorage.getItem("startTime"));
-  const workedHours = (end - start) / 3600000;
+
+  const totalWorkedHours = (end - start) / 3600000;
+
+  const breakMinutes = Number(document.getElementById("breakMinutes").value) || 0;
+  const breakHours = breakMinutes / 60;
+
+  const netWorkedHours = totalWorkedHours - breakHours;
 
   const [sh, sm] = workStart.value.split(":").map(Number);
   const [eh, em] = workEnd.value.split(":").map(Number);
-  const official = ((eh * 60 + em) - (sh * 60 + sm)) / 60;
 
-  const overtime = workedHours - official;
-  result.innerText = `Überstunden heute: ${overtime.toFixed(2)} h`;
+  const officialHours =
+    ((eh * 60 + em) - (sh * 60 + sm)) / 60;
+
+  const overtime = netWorkedHours - officialHours;
+
+  result.innerHTML = `
+    Ist-Zeit: ${netWorkedHours.toFixed(2)} h<br>
+    Soll-Zeit: ${officialHours.toFixed(2)} h<br>
+    <strong>Überstunden: ${overtime.toFixed(2)} h</strong>
+  `;
 
   saveDay(overtime);
   renderMonth();
 }
 
+/* TIMER */
 function updateTimer() {
   const diff = new Date() - startTime;
   timer.innerText =
@@ -41,13 +56,17 @@ function pad(n) {
   return Math.floor(n).toString().padStart(2, "0");
 }
 
-/* Daten */
+/* SPEICHERN */
 function saveDay(overtime) {
   const days = JSON.parse(localStorage.getItem("days") || "[]");
-  days.push({ date: new Date().toISOString().slice(0, 10), overtime });
+  days.push({
+    date: new Date().toISOString().slice(0, 10),
+    overtime
+  });
   localStorage.setItem("days", JSON.stringify(days));
 }
 
+/* MONAT */
 function renderMonth() {
   const days = JSON.parse(localStorage.getItem("days") || "[]");
   monthTable.innerHTML = "";
@@ -66,7 +85,7 @@ function renderMonth() {
   renderChart(days);
 }
 
-/* Diagramm */
+/* DIAGRAMM */
 function renderChart(days) {
   const ctx = document.getElementById("overtimeChart");
   if (!ctx) return;
@@ -81,11 +100,14 @@ function renderChart(days) {
         backgroundColor: "#2563eb"
       }]
     },
-    options: { plugins: { legend: { display: false } } }
+    options: {
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
   });
 }
 
-/* Export */
+/* EXPORT */
 function exportCSV() {
   if (!isPremium) return alert("Premium-Funktion");
   const days = JSON.parse(localStorage.getItem("days") || "[]");
@@ -101,7 +123,10 @@ function exportPDF() {
   doc.text("Arbeitszeit Übersicht", 20, 20);
   let y = 35;
   JSON.parse(localStorage.getItem("days") || "[]")
-    .forEach(d => { doc.text(`${d.date}: ${d.overtime.toFixed(2)} h`, 20, y); y += 8; });
+    .forEach(d => {
+      doc.text(`${d.date}: ${d.overtime.toFixed(2)} h`, 20, y);
+      y += 8;
+    });
   doc.save("arbeitszeit.pdf");
 }
 
@@ -112,17 +137,19 @@ function download(content, file, type) {
   a.click();
 }
 
-/* Premium / Stripe Platzhalter */
+/* PREMIUM */
 function goPremium() {
-  alert("Stripe-Integration folgt – Premium ist vorbereitet.");
+  alert("Stripe-Integration folgt – Premium vorbereitet.");
 }
 
-/* Dark Mode */
+/* DARK MODE */
 function toggleDark() {
   document.body.classList.toggle("dark");
   localStorage.setItem("dark", document.body.classList.contains("dark"));
 }
-if (localStorage.getItem("dark") === "true") document.body.classList.add("dark");
+if (localStorage.getItem("dark") === "true") {
+  document.body.classList.add("dark");
+}
 
 /* PWA */
 if ("serviceWorker" in navigator) {
