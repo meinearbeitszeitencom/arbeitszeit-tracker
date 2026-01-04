@@ -5,11 +5,14 @@
   <title>MeineArbeitszeit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,13 +26,24 @@
 </header>
 
 <main class="container">
+  <aside class="ad">Werbung</aside>
+
   <section class="app">
     <h2>Arbeitszeit heute</h2>
 
     <div class="settings">
-      <label>Arbeitsbeginn <input type="time" id="workStart" value="08:00"></label>
-      <label>Arbeitsende <input type="time" id="workEnd" value="17:00"></label>
-      <label>Pause (Min) <input type="number" id="breakMinutes" value="30"></label>
+      <label>
+        Arbeitsbeginn
+        <input type="time" id="workStart" value="08:00">
+      </label>
+      <label>
+        Arbeitsende
+        <input type="time" id="workEnd" value="17:00">
+      </label>
+      <label>
+        Pause (Minuten)
+        <input type="number" id="breakMinutes" value="30" min="0">
+      </label>
     </div>
 
     <div class="timer" id="timer">00:00:00</div>
@@ -39,24 +53,53 @@
       <button class="stop" onclick="stopWork()">Stopp</button>
     </div>
 
-    <div id="result"></div>
+    <div class="result" id="result"></div>
 
     <h3>Monatsübersicht</h3>
+
     <table>
-      <thead><tr><th>Datum</th><th>Überstunden</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Überstunden</th>
+        </tr>
+      </thead>
       <tbody id="monthTable"></tbody>
     </table>
 
-    <div id="monthSum"></div>
+    <div class="sum" id="monthSum"></div>
 
+    <h3>Überstunden Diagramm</h3>
     <canvas id="overtimeChart"></canvas>
 
     <div class="export">
-      <button onclick="exportCSV()">CSV</button>
-      <button onclick="exportPDF()">PDF</button>
+      <button onclick="exportCSV()">CSV exportieren</button>
+      <button onclick="exportPDF()">PDF exportieren</button>
     </div>
+
+    <!-- ✅ SPENDE – JETZT AUCH MOBIL SICHTBAR -->
+    <div class="donation">
+      <p>
+        💙 Dieses Projekt ist kostenlos.<br>
+        Wenn es dir hilft, kannst du es freiwillig unterstützen.
+      </p>
+      <a class="donateBtn"
+         href="paypal.me/meinearbeitszeit"
+         target="_blank"
+         rel="noopener">
+        ☕ Jetzt spenden
+      </a>
+    </div>
+
   </section>
+
+  <aside class="ad">Werbung</aside>
 </main>
+
+<footer>
+  <a href="impressum.html">Impressum</a> |
+  <a href="datenschutz.html">Datenschutz</a>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
