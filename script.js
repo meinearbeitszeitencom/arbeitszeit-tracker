@@ -103,7 +103,7 @@ function renderChart(days) {
 /* EXPORT */
 function exportCSV() {
   const days = JSON.parse(localStorage.getItem("days") || "[]");
-  let csv = "Datum,Überstunden\n";
+  let csv = "Datum,-berstunden\n";
   days.forEach(d => csv += `${d.date},${d.overtime.toFixed(2)}\n`);
   download(csv, "arbeitszeit.csv", "text/csv");
 }
@@ -137,7 +137,7 @@ if (localStorage.getItem("dark") === "true") {
   document.body.classList.add("dark");
 }
 
-/* SERVICE WORKER REGISTRIEREN */
+/* SERVICE WORKER */
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/service-worker.js");
 }
