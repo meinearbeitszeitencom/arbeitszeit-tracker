@@ -1,4 +1,4 @@
-const CACHE = "arbeitszeit-v1";
+const CACHE = "arbeitszeit-v2";
 const FILES = [
   "/",
   "/index.html",
