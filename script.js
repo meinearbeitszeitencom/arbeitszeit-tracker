@@ -2,8 +2,6 @@ let startTime = null;
 let interval = null;
 let chart = null;
 
-const isPremium = localStorage.getItem("premium") === "true";
-
 /* START */
 function startWork() {
   startTime = new Date();
@@ -23,9 +21,7 @@ function stopWork() {
   const totalWorkedHours = (end - start) / 3600000;
 
   const breakMinutes = Number(document.getElementById("breakMinutes").value) || 0;
-  const breakHours = breakMinutes / 60;
-
-  const netWorkedHours = totalWorkedHours - breakHours;
+  const netWorkedHours = totalWorkedHours - (breakMinutes / 60);
 
   const [sh, sm] = workStart.value.split(":").map(Number);
   const [eh, em] = workEnd.value.split(":").map(Number);
@@ -59,10 +55,7 @@ function pad(n) {
 /* SPEICHERN */
 function saveDay(overtime) {
   const days = JSON.parse(localStorage.getItem("days") || "[]");
-  days.push({
-    date: new Date().toISOString().slice(0, 10),
-    overtime
-  });
+  days.push({ date: new Date().toISOString().slice(0, 10), overtime });
   localStorage.setItem("days", JSON.stringify(days));
 }
 
@@ -107,9 +100,8 @@ function renderChart(days) {
   });
 }
 
-/* EXPORT */
+/* EXPORT – jetzt frei */
 function exportCSV() {
-  if (!isPremium) return alert("Premium-Funktion");
   const days = JSON.parse(localStorage.getItem("days") || "[]");
   let csv = "Datum,Überstunden\n";
   days.forEach(d => csv += `${d.date},${d.overtime.toFixed(2)}\n`);
@@ -117,7 +109,6 @@ function exportCSV() {
 }
 
 function exportPDF() {
-  if (!isPremium) return alert("Premium-Funktion");
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.text("Arbeitszeit Übersicht", 20, 20);
@@ -135,11 +126,6 @@ function download(content, file, type) {
   a.href = URL.createObjectURL(new Blob([content], { type }));
   a.download = file;
   a.click();
-}
-
-/* PREMIUM */
-function goPremium() {
-  alert("Stripe-Integration folgt – Premium vorbereitet.");
 }
 
 /* DARK MODE */
