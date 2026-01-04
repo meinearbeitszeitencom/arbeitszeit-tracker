@@ -1,4 +1,4 @@
-const CACHE_NAME = "meinearbeitszeit-v11";
+const CACHE_NAME = "meinearbeitszeit-v12";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
