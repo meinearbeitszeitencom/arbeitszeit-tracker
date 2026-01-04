@@ -57,7 +57,7 @@ header {
 
 .container {
   display: grid;
-  grid-template-columns: 1fr minmax(320px, 520px) 1fr;
+  grid-template-columns: 1fr minmax(320px, 540px) 1fr;
   gap: 1.5rem;
   padding: 2rem 1rem;
 }
@@ -84,6 +84,7 @@ header {
   gap: 1rem;
   justify-content: center;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .settings label {
@@ -143,8 +144,24 @@ th, td {
   font-weight: 600;
 }
 
-.export, .premium {
+.export {
   margin-top: 1.5rem;
+}
+
+.donation {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.donateBtn {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.7rem 1.4rem;
+  background: #f59e0b;
+  color: #1f2933;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 canvas {
